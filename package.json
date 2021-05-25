@@ -1,0 +1,27 @@
+{
+  "name": "command-builder",
+  "version": "1.0.0",
+  "description": "A script that builds the script that builds your site",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NJKode/command-builder.git"
+  },
+  "keywords": [
+    "SSG",
+    "static",
+    "site",
+    "generator",
+    "build"
+  ],
+  "author": "Nathan Kennedy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NJKode/command-builder/issues"
+  },
+  "homepage": "https://github.com/NJKode/command-builder#readme"
+}
