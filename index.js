@@ -1,1 +1,3 @@
-console.log('Running');
+(async function run() {
+	console.log('Running');
+}());
