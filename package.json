@@ -2,7 +2,7 @@
   "name": "command-builder",
   "version": "1.0.0",
   "description": "A script that builds the script that builds your site",
-  "main": "index.js",
+  "main": "lib/parser.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
