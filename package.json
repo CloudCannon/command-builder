@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint-autofix": "eslint --fix lib/** index.js",
-    "lint-code": "eslint lib/** index.js",
+    "lint-autofix": "eslint --fix lib/** helpers/** options/** index.js",
+    "lint-code": "eslint lib/** helpers/** options/** index.js",
     "lint": "npm run lint-autofix && npm run lint-code"
   },
   "repository": {

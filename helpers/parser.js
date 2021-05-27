@@ -1,4 +1,4 @@
-const ssgOptions = require('./ssg-options');
+const ssgOptions = require('../options/ssg-options');
 
 module.exports = {
 	parseOptions: function (ssg, buildOptions) {
