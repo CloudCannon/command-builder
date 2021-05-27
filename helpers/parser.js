@@ -7,7 +7,7 @@ module.exports = {
 		const buildString = [];
 
 		Object.keys(buildOptions).forEach((key) => {
-			if (buildOptions[key]) {
+			if (buildOptions[key] && validOptions[key]) {
 				buildString.push(validOptions[key].option);
 				if (validOptions[key].type !== 'boolean') {
 					buildString.push(buildOptions[key]);
