@@ -5,6 +5,7 @@ const Rosey = require('./lib/rosey');
 const Jekyll = require('./lib/jekyll');
 const Reseed = require('./lib/reseed');
 const Parser = require('./helpers/parser');
+const BuildOptions = require('./options/ssg-options');
 
 module.exports = {
 	Static: Static,
@@ -13,5 +14,6 @@ module.exports = {
 	Rosey: Rosey,
 	Jekyll: Jekyll,
 	Reseed: Reseed,
-	Parser: Parser
+	Parser: Parser,
+	BuildOptions: BuildOptions
 };
