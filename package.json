@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CloudCannon/reseed"
+    "url": "git+https://github.com/CloudCannon/command-builder"
   },
   "keywords": [
     "SSG",
@@ -24,9 +24,9 @@
   "author": "Nathan Kennedy",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/CloudCannon/reseed/issues"
+    "url": "https://github.com/CloudCannon/command-builder/issues"
   },
-  "homepage": "https://github.com/CloudCannon/reseed#readme",
+  "homepage": "https://github.com/CloudCannon/command-builder#readme",
   "devDependencies": {
     "eslint": "^7.27.0",
     "eslint-config-cloudcannon": "^1.0.0-rc5",
