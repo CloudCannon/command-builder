@@ -38,6 +38,14 @@ module.exports = {
 				option: '--limit_posts',
 				type: 'number'
 			},
+			incremental: {
+				name: 'Incremental Regeneration',
+				description: 'Experimental Feature. Shorten build times by only generating documents and pages that were updated since the previous build.',
+				option: '--incremental',
+				alias: '-I',
+				type: 'boolean',
+				default: false
+			},
 			drafts: {
 				name: 'Drafts',
 				description: 'Render posts in the _drafts folder.',
