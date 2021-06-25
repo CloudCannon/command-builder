@@ -360,8 +360,7 @@ module.exports = {
 	},
 
 	eleventy: {
-		structure: 'cp <source> destination',
-		source: 'source',
+		structure: 'npx @11ty/eleventy [options]',
 		options: {
 			config: {
 				name: 'Config',

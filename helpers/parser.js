@@ -1,9 +1,8 @@
 const ssgOptions = require('../options/ssg-options');
 
 module.exports = {
-	parseOptions: function (ssg, buildOptions) {
-		ssg = (ssg || 'static').toLowerCase();
-		const validOptions = (ssgOptions[ssg] || ssgOptions.static).options;
+	parseOptions: function (ssg = 'static', buildOptions) {
+		const validOptions = (ssgOptions[ssg.toLowerCase()] || ssgOptions.static).options;
 		const buildString = [];
 
 		Object.keys(buildOptions).forEach((key) => {
