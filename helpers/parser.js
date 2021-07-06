@@ -56,7 +56,7 @@ module.exports = {
 		});
 
 		let commandString = commandParts.join(' ');
-		if (ssgOptions[ssg].postProcessor) {
+		if (ssgOptions[ssg]?.postProcessor) {
 			commandString = ssgOptions[ssg].postProcessor(commandString);
 		}
 
