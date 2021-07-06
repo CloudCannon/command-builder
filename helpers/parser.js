@@ -18,7 +18,11 @@ module.exports = {
 	},
 
 	parseCommand: function (ssg, buildOptions, command) {
-		command = command || ssgOptions[ssg].structure;
+		command = command ?? ssgOptions[ssg]?.structure;
+		if (!command) {
+			return '';
+		}
+
 		const parts = command.split(' ');
 		const commandParts = [];
 
