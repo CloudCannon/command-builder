@@ -1,9 +1,8 @@
 const ssgOptions = require('../options/ssg-options');
 
 module.exports = {
-	parseOptions: function (ssg, buildOptions) {
-		ssg = (ssg || 'static').toLowerCase();
-		const validOptions = (ssgOptions[ssg] || ssgOptions.static).options;
+	parseOptions: function (ssg = 'static', buildOptions) {
+		const validOptions = (ssgOptions[ssg.toLowerCase()] || ssgOptions.static).options;
 		const buildString = [];
 
 		Object.keys(buildOptions).forEach((key) => {
@@ -19,21 +18,48 @@ module.exports = {
 	},
 
 	parseCommand: function (ssg, buildOptions, command) {
-		command = command || ssgOptions[ssg].structure;
+		command = command ?? ssgOptions[ssg]?.structure;
+		if (!command) {
+			return '';
+		}
+
 		const parts = command.split(' ');
-		const commandString = [];
+		const commandParts = [];
 
 		parts.forEach((part) => {
 			if (part === '[options]') {
 				const options = this.parseOptions(ssg, buildOptions);
-				commandString.push(options);
+				commandParts.push(options);
 			} else if (part.charAt(0) === '<' && part.charAt(part.length - 1) === '>') {
-				// TODO explicit command paramaters (so far only from static and sphinx)
+				const optionKey = part.substring(1, part.length - 1);
+				const option = buildOptions[optionKey];
+				commandParts.push(option);
 			} else {
-				commandString.push(part);
+				let openBraceIndex = part.indexOf('{');
+
+				while (openBraceIndex !== -1) {
+					let closeBraceIndex = part.indexOf('}', openBraceIndex);
+					if (closeBraceIndex === -1) { break; }
+
+					const optionKey = part.substring(openBraceIndex + 1, closeBraceIndex);
+					const option = buildOptions[optionKey] || '';
+
+					const reg = new RegExp(`{${optionKey}}`, 'g');
+					part = part.replace(reg, option);
+
+					closeBraceIndex += (option.length - (optionKey.length + 2));
+					openBraceIndex = part.indexOf('{', closeBraceIndex);
+				}
+
+				commandParts.push(part);
 			}
 		});
 
-		return commandString.join(' ');
+		let commandString = commandParts.join(' ');
+		if (ssgOptions[ssg]?.postProcessor) {
+			commandString = ssgOptions[ssg].postProcessor(commandString);
+		}
+
+		return commandString;
 	}
 };

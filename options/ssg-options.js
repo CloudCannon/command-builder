@@ -2,13 +2,15 @@
 
 module.exports = {
 	static: {
-		structure: 'cp <source> destination',
+		structure: 'cp /usr/local/__site/src/{source}/* /usr/local/__site/compiled',
+		postProcessor: (command) => command.replace(/\/+/g, '/'),
 		source: 'source',
 		options: {
 			source: {
 				name: 'Source',
 				description: 'The path CloudCannon reads your files.',
-				type: 'string'
+				type: 'string',
+				validator: /^[^<>:"|?*/\\]+$/ig
 			}
 		}
 	},
@@ -37,6 +39,14 @@ module.exports = {
 				description: 'Limit the number of posts to parse and publish.',
 				option: '--limit_posts',
 				type: 'number'
+			},
+			incremental: {
+				name: 'Incremental Regeneration',
+				description: 'Experimental Feature. Shorten build times by only generating documents and pages that were updated since the previous build.',
+				option: '--incremental',
+				alias: '-I',
+				type: 'boolean',
+				default: false
 			},
 			drafts: {
 				name: 'Drafts',
@@ -352,8 +362,7 @@ module.exports = {
 	},
 
 	eleventy: {
-		structure: 'cp <source> destination',
-		source: 'source',
+		structure: 'npx @11ty/eleventy [options]',
 		options: {
 			config: {
 				name: 'Config',
@@ -387,5 +396,5 @@ module.exports = {
 				default: false
 			}
 		}
-	},
+	}
 };
