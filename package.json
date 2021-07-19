@@ -24,6 +24,8 @@
   "files": [
     "/index.js",
     "/helpers",
+    "/options",
+    "/lib/compiler.js",
     "/lib/eleventy.js",
     "/lib/gatsby.js",
     "/lib/hugo.js",
