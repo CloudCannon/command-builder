@@ -1,5 +1,9 @@
 {
     "extends": [
-        "cloudcannon"
-    ]
+       "cloudcannon"
+    ],
+    "plugins": ["jest"],
+    "env": {
+        "jest/globals": true
+    }
 }
