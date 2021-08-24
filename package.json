@@ -1,6 +1,6 @@
 {
   "name": "@cloudcannon/command-builder",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "A script that builds the script that builds your site",
   "main": "index.js",
   "scripts": {
