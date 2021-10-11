@@ -30,6 +30,7 @@
     "/lib/hugo.js",
     "/lib/jekyll.js",
     "/lib/reader.js",
+    "/lib/reader-npm.js",
     "/lib/reseed.js",
     "/lib/rosey.js",
     "/lib/static.js"

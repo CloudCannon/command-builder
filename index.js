@@ -4,22 +4,24 @@ const Hugo = require('./lib/hugo');
 const Jekyll = require('./lib/jekyll');
 const Parser = require('./helpers/parser');
 const Reader = require('./lib/reader');
+const ReaderNpm = require('./lib/reader-npm');
 const Reseed = require('./lib/reseed');
 const Rosey = require('./lib/rosey');
 const Static = require('./lib/static');
 
 module.exports = {
 	Eleventy: Eleventy,
-	Gatsby: Reader,
-	Hexo: Reader,
+	Gatsby: ReaderNpm,
+	Hexo: ReaderNpm,
 	Hugo: Hugo,
 	Jekyll: Jekyll,
-	NextJs: Reader,
-	NuxtJs: Reader,
+	NextJs: ReaderNpm,
+	NuxtJs: ReaderNpm,
+	Other: Reader,
 	Reseed: Reseed,
 	Rosey: Rosey,
 	Static: Static,
-	SvelteKit: Reader,
+	SvelteKit: ReaderNpm,
 
 	Parser: Parser,
 	BuildOptions: BuildOptions

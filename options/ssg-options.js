@@ -3,13 +3,14 @@ const hugoOptions = require('./hugo-options');
 const jekyllOptions = require('./jekyll-options');
 const staticOptions = require('./static-options');
 const readerOptions = require('./reader-options');
+const readerNpmOptions = require('./reader-npm-options');
 
-const getReaderOptions = (outputPathDefault) => ({
-	...readerOptions,
+const getReaderNpmOptions = (outputPathDefault) => ({
+	...readerNpmOptions,
 	options: {
-		...readerOptions.options,
+		...readerNpmOptions.options,
 		output_path: {
-			...readerOptions.options.output_path,
+			...readerNpmOptions.options.output_path,
 			default: outputPathDefault
 		}
 	}
@@ -17,12 +18,13 @@ const getReaderOptions = (outputPathDefault) => ({
 
 module.exports = {
 	eleventy: eleventyOptions,
-	gatsby: getReaderOptions('public'),
-	hexo: getReaderOptions('public'),
+	gatsby: readerNpmOptions,
+	hexo: readerNpmOptions,
 	hugo: hugoOptions,
 	jekyll: jekyllOptions,
-	nextjs: getReaderOptions('out'),
-	nuxtjs: getReaderOptions('dist'),
+	nextjs: getReaderNpmOptions('out'),
+	nuxtjs: getReaderNpmOptions('dist'),
+	other: readerOptions,
 	static: staticOptions,
-	sveltekit: getReaderOptions('build')
+	sveltekit: getReaderNpmOptions('build')
 };

@@ -1,15 +1,17 @@
 module.exports = {
-	structure: '',
+	structure: 'npm run build',
 	options: {
 		install_command: {
 			name: 'Install Command',
 			description: 'Command to install dependencies before build.',
-			type: 'string'
+			type: 'string',
+			suggestion: 'npm install'
 		},
 		build_command: {
 			name: 'Build Command',
 			description: 'Command to build your site.',
-			type: 'string'
+			type: 'string',
+			suggestion: 'npm run build'
 		},
 		output_path: {
 			name: 'Output Path',
