@@ -8,7 +8,7 @@ module.exports = {
 			alias: '-s',
 			type: 'string',
 			validator: /.*/ig,
-			default: '/'
+			default: ''
 		},
 		config: {
 			name: 'Configuration',
