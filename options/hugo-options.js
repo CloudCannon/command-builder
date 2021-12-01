@@ -17,6 +17,15 @@ module.exports = {
 			type: 'string',
 			validator: /.*/ig
 		},
+		destination: {
+			name: 'Destination',
+			description: 'Path to write files to',
+			option: '--destination',
+			alias: '-d',
+			type: 'string',
+			validator: /.*/ig,
+			default: 'public'
+		},
 		baseURL: {
 			name: 'Base URL',
 			description: 'Hostname and path to the root (e.g. https://example.com/).',
