@@ -19,6 +19,13 @@ module.exports = {
 			option: '--input',
 			type: 'string'
 		},
+		output: {
+			name: 'Output',
+			description: 'Site output location (default: _site).',
+			option: '--output',
+			type: 'string',
+			default: '_site'
+		},
 		pathprefix: {
 			name: 'Path Prefix',
 			description: 'Change all URL template filters to use this subdirectory.',
