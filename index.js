@@ -22,6 +22,7 @@ module.exports = {
 	Rosey: Rosey,
 	Static: Static,
 	SvelteKit: ReaderNpm,
+	Astro: ReaderNpm,
 
 	Parser: Parser,
 	BuildOptions: BuildOptions

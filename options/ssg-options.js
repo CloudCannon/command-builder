@@ -24,6 +24,7 @@ module.exports = {
 	jekyll: jekyllOptions,
 	nextjs: getReaderNpmOptions('out'),
 	nuxtjs: getReaderNpmOptions('dist'),
+	astro: getReaderNpmOptions('dist'),
 	other: readerOptions,
 	static: staticOptions,
 	sveltekit: getReaderNpmOptions('build')
