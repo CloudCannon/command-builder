@@ -4,6 +4,7 @@ const jekyllOptions = require('./jekyll-options');
 const staticOptions = require('./static-options');
 const readerOptions = require('./reader-options');
 const readerNpmOptions = require('./reader-npm-options');
+const mkdocsOptions = require('./mkdocs-options');
 
 const getReaderNpmOptions = (outputPathDefault) => ({
 	...readerNpmOptions,
@@ -27,5 +28,6 @@ module.exports = {
 	astro: getReaderNpmOptions('dist'),
 	other: readerOptions,
 	static: staticOptions,
-	sveltekit: getReaderNpmOptions('build')
+	sveltekit: getReaderNpmOptions('build'),
+	mkdocs: mkdocsOptions
 };

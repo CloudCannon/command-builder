@@ -23,6 +23,7 @@ module.exports = {
 	Static: Static,
 	SvelteKit: ReaderNpm,
 	Astro: ReaderNpm,
+	MkDocs: Reader,
 
 	Parser: Parser,
 	BuildOptions: BuildOptions
