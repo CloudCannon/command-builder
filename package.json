@@ -19,7 +19,8 @@
     "static",
     "site",
     "generator",
-    "build"
+    "build",
+    "CloudCannon"
   ],
   "files": [
     "/index.js",
