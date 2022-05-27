@@ -1,6 +1,6 @@
 {
   "name": "@cloudcannon/command-builder",
-  "version": "1.0.41",
+  "version": "1.0.42",
   "description": "A script that builds the script that builds your site",
   "main": "index.js",
   "scripts": {
@@ -10,9 +10,9 @@
     "lint-code": "eslint lib/** helpers/** options/** index.js",
     "lint": "npm run lint-autofix && npm run lint-code"
   },
-	"publishConfig": {
-		"registry": "https://npm.pkg.github.com"
-	},
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CloudCannon/command-builder"
