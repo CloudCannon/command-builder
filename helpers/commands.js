@@ -1,3 +1,3 @@
 module.exports = {
-	addEchoCommand: (memo, command) => [...memo, `echo "$ ${command}"`, command]
+	addEchoCommand: (memo, command) => [...memo, `echo '$ ${command}'`, command]
 };
