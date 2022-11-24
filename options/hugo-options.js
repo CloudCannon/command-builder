@@ -205,7 +205,7 @@ module.exports = {
 			description: 'Prevent copying modification time of files.',
 			option: '--noTimes',
 			type: 'boolean',
-			default: false
+			default: true
 		},
 		pathWarnings: {
 			name: 'Path Warnings',
