@@ -1,5 +1,8 @@
 module.exports = {
 	structure: '',
+	defaults: {
+		preserved_paths: 'node_modules/'
+	},
 	options: {
 		install_command: {
 			name: 'Install Command',

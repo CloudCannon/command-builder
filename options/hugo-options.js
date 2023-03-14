@@ -1,5 +1,8 @@
 module.exports = {
 	structure: 'hugo [options]',
+	defaults: {
+		preserved_paths: 'node_modules/'
+	},
 	options: {
 		environment: {
 			name: 'Environment',
@@ -33,7 +36,8 @@ module.exports = {
 			alias: '-b',
 			type: 'string',
 			validator: /.*/ig,
-			suggestion: 'https://example.com'
+			suggestion: 'https://example.com',
+			default: '/'
 		},
 		config: {
 			name: 'Config',
