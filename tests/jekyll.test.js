@@ -1,4 +1,4 @@
-const { runScriptCommands } = require('./jekyll');
+const { runScriptCommands } = require('../src/lib/jekyll');
 
 test('outputs with empty config', () => {
 	expect(runScriptCommands()).toEqual([

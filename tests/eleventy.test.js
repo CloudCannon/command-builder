@@ -1,4 +1,4 @@
-const { runScriptCommands } = require('./eleventy');
+const { runScriptCommands } = require('../src/lib/eleventy');
 
 test('outputs with empty config', () => {
 	expect(runScriptCommands()).toEqual([
