@@ -1,4 +1,4 @@
-const { runScriptCommands } = require('./reader');
+const { runScriptCommands } = require('../src/lib/reader-npm');
 
 test('outputs with empty config', () => {
 	expect(runScriptCommands()).toEqual([
@@ -6,6 +6,8 @@ test('outputs with empty config', () => {
 		'if [ -f ".cloudcannon/preinstall" ]; then source .cloudcannon/preinstall; else echo "Not found."; fi',
 		'echo "$ cd /usr/local/__site/src/"',
 		'cd /usr/local/__site/src/',
+		'echo \'$ npm install\'',
+		'npm install',
 		'echo "$ source .cloudcannon/prebuild"',
 		'if [ -f ".cloudcannon/prebuild" ]; then source .cloudcannon/prebuild; else echo "Not found."; fi',
 		'echo "$ cd /usr/local/__site/src/"',
@@ -24,6 +26,8 @@ test('outputs with empty config', () => {
 		'echo "[🏷ruby-bundler:${DETECTED_BUNDLE_VERSION}]"',
 		'echo "[🏷ruby:${DETECTED_RUBY_VERSION}]"',
 		/* eslint-enable no-template-curly-in-string */
+		'echo \'$ npm run build\'',
+		'npm run build',
 		'echo \'$ npx @cloudcannon/reader@latest --output "public"\'',
 		'npx @cloudcannon/reader@latest --output "public"',
 		'echo "$ source .cloudcannon/postbuild"',
@@ -47,6 +51,8 @@ test('outputs with @next config', () => {
 		'if [ -f ".cloudcannon/preinstall" ]; then source .cloudcannon/preinstall; else echo "Not found."; fi',
 		'echo "$ cd /usr/local/__site/src/"',
 		'cd /usr/local/__site/src/',
+		'echo \'$ npm install\'',
+		'npm install',
 		'echo "$ source .cloudcannon/prebuild"',
 		'if [ -f ".cloudcannon/prebuild" ]; then source .cloudcannon/prebuild; else echo "Not found."; fi',
 		'echo "$ cd /usr/local/__site/src/"',
@@ -65,6 +71,8 @@ test('outputs with @next config', () => {
 		'echo "[🏷ruby-bundler:${DETECTED_BUNDLE_VERSION}]"',
 		'echo "[🏷ruby:${DETECTED_RUBY_VERSION}]"',
 		/* eslint-enable no-template-curly-in-string */
+		'echo \'$ npm run build\'',
+		'npm run build',
 		'echo \'$ npx @cloudcannon/reader@next --output "public"\'',
 		'npx @cloudcannon/reader@next --output "public"',
 		'echo "$ source .cloudcannon/postbuild"',

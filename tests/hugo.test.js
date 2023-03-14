@@ -1,4 +1,4 @@
-const { runScriptCommands } = require('./hugo');
+const { runScriptCommands } = require('../src/lib/hugo');
 
 test('outputs with empty config', () => {
 	expect(runScriptCommands()).toEqual([
