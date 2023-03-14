@@ -1,30 +1,33 @@
-const BuildOptions = require('./options/ssg-options');
 const Eleventy = require('./lib/eleventy');
 const Hugo = require('./lib/hugo');
 const Jekyll = require('./lib/jekyll');
-const Parser = require('./helpers/parser');
 const Reader = require('./lib/reader');
 const ReaderNpm = require('./lib/reader-npm');
 const Reseed = require('./lib/reseed');
 const Rosey = require('./lib/rosey');
 const Static = require('./lib/static');
 
+const Parser = require('./helpers/parser');
+const BuildOptions = require('./options/ssg-options');
+
 module.exports = {
-	Eleventy: Eleventy,
+	Astro: ReaderNpm,
+	Bridgetown: Reader,
+	Eleventy,
 	Gatsby: ReaderNpm,
 	Hexo: ReaderNpm,
-	Hugo: Hugo,
-	Jekyll: Jekyll,
+	Hugo,
+	Jekyll,
+	Lume: Reader,
+	MkDocs: Reader,
 	NextJs: ReaderNpm,
 	NuxtJs: ReaderNpm,
 	Other: Reader,
-	Reseed: Reseed,
-	Rosey: Rosey,
-	Static: Static,
+	Reseed,
+	Rosey,
+	Static,
 	SvelteKit: ReaderNpm,
-	Astro: ReaderNpm,
-	MkDocs: Reader,
 
-	Parser: Parser,
-	BuildOptions: BuildOptions
+	Parser,
+	BuildOptions
 };

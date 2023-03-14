@@ -1,5 +1,8 @@
 module.exports = {
 	structure: 'npx @11ty/eleventy [options]',
+	defaults: {
+		preserved_paths: 'node_modules/'
+	},
 	options: {
 		config: {
 			name: 'Config',

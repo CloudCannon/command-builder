@@ -3,6 +3,9 @@
        "cloudcannon"
     ],
     "plugins": ["jest"],
+    "rules": {
+        "object-shorthand": ["warn", "always"]
+    },
     "env": {
         "jest/globals": true
     }

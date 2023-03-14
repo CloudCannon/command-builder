@@ -1,5 +1,14 @@
 module.exports = {
 	structure: 'jekyll build [options]',
+	defaults: {
+		environment_variables: [
+			{
+				key: 'JEKYLL_ENV',
+				value: 'production'
+			}
+		],
+		preserved_paths: '.jekyll-cache/,.jekyll-metadata/'
+	},
 	options: {
 		source: {
 			name: 'Source',

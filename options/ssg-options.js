@@ -1,33 +1,30 @@
-const eleventyOptions = require('./eleventy-options');
-const hugoOptions = require('./hugo-options');
-const jekyllOptions = require('./jekyll-options');
-const staticOptions = require('./static-options');
-const readerOptions = require('./reader-options');
-const readerNpmOptions = require('./reader-npm-options');
-const mkdocsOptions = require('./mkdocs-options');
-
-const getReaderNpmOptions = (outputPathDefault) => ({
-	...readerNpmOptions,
-	options: {
-		...readerNpmOptions.options,
-		output_path: {
-			...readerNpmOptions.options.output_path,
-			default: outputPathDefault
-		}
-	}
-});
+const astro = require('./astro-options');
+const bridgetown = require('./bridgetown-options');
+const eleventy = require('./eleventy-options');
+const hugo = require('./hugo-options');
+const jekyll = require('./jekyll-options');
+const lume = require('./lume-options');
+const mkdocs = require('./mkdocs-options');
+const nextjs = require('./nextjs-options');
+const nuxtjs = require('./nuxtjs-options');
+const reader = require('./reader-options');
+const readerNpm = require('./reader-npm-options');
+const statik = require('./static-options');
+const sveltekit = require('./sveltekit-options');
 
 module.exports = {
-	eleventy: eleventyOptions,
-	gatsby: readerNpmOptions,
-	hexo: readerNpmOptions,
-	hugo: hugoOptions,
-	jekyll: jekyllOptions,
-	nextjs: getReaderNpmOptions('out'),
-	nuxtjs: getReaderNpmOptions('dist'),
-	astro: getReaderNpmOptions('dist'),
-	other: readerOptions,
-	static: staticOptions,
-	sveltekit: getReaderNpmOptions('build'),
-	mkdocs: mkdocsOptions
+	astro,
+	bridgetown,
+	eleventy,
+	gatsby: readerNpm,
+	hexo: readerNpm,
+	hugo,
+	jekyll,
+	lume,
+	mkdocs,
+	nextjs,
+	nuxtjs,
+	other: reader,
+	static: statik,
+	sveltekit
 };

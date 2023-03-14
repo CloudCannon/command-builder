@@ -1,7 +1,7 @@
 const ssgOptions = require('../options/ssg-options');
 
 module.exports = {
-	parseOptions: function (ssg = 'static', buildOptions) {
+	parseOptions(ssg = 'static', buildOptions) {
 		const validOptions = (ssgOptions[ssg.toLowerCase()] || ssgOptions.static).options;
 		const buildString = [];
 
@@ -17,7 +17,7 @@ module.exports = {
 		return buildString.join(' ');
 	},
 
-	parseCommand: function (ssg, buildOptions, command) {
+	parseCommand(ssg, buildOptions, command) {
 		command = command ?? ssgOptions[ssg]?.structure;
 		if (!command) {
 			return '';

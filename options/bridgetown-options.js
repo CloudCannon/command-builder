@@ -2,24 +2,28 @@ const reader = require('./reader-options');
 
 module.exports = {
 	...reader,
-	structure: 'npm run build',
 	defaults: {
-		...reader.defaults,
-		preserved_paths: 'node_modules/'
+		environment_variables: [
+			{
+				key: 'BRIDGETOWN_ENV',
+				value: 'production'
+			}
+		],
+		preserved_paths: 'node_modules/,.bridgetown-cache/'
 	},
 	options: {
 		...reader.options,
 		install_command: {
 			...reader.options.install_command,
-			suggestion: 'npm install'
+			default: 'bundle install && yarn install'
 		},
 		build_command: {
 			...reader.options.build_command,
-			suggestion: 'npm run build'
+			default: 'bin/bridgetown deploy'
 		},
 		output_path: {
 			...reader.options.output_path,
-			suggestion: 'public'
+			default: 'output'
 		}
 	}
 };
