@@ -4,12 +4,12 @@ const { addEchoCommand } = require('../helpers/commands');
 
 function getCheckCommands() {
 	return [
-		'DETECTED_NPM_VERSION=$(npm -v | sed "s/[][]//g")',
-		'DETECTED_NODE_VERSION=$(node -v | sed "s/[][]//g" | sed "s/^v//")',
-		'DETECTED_DENO_VERSION=$(deno -V | sed "s/[][]//g" | sed "s/^deno //")',
-		'DETECTED_YARN_VERSION=$(yarn -v)',
-		'DETECTED_BUNDLE_VERSION=$(bundle -v | sed "s/[][]//g" | sed "s/^Bundler version //g")',
-		'DETECTED_RUBY_VERSION=$(ruby -v | sed "s/[][]//g" | sed "s/^ruby //g" | cut -d " " -f 1)',
+		'DETECTED_NPM_VERSION=$((npm -v 2> /dev/null || echo \'unknown\') | sed "s/[][]//g")',
+		'DETECTED_NODE_VERSION=$((node -v 2> /dev/null || echo \'unknown\') | sed "s/[][]//g" | sed "s/^v//")',
+		'DETECTED_DENO_VERSION=$((deno -V 2> /dev/null || echo \'unknown\') | sed "s/[][]//g" | sed "s/^deno //")',
+		'DETECTED_YARN_VERSION=$(yarn -v 2> /dev/null || echo \'unknown\')',
+		'DETECTED_BUNDLE_VERSION=$((bundle -v 2> /dev/null || echo \'unknown\') | sed "s/[][]//g" | sed "s/^Bundler version //g")',
+		'DETECTED_RUBY_VERSION=$((ruby -v 2> /dev/null || echo \'unknown\') | sed "s/[][]//g" | sed "s/^ruby //g" | cut -d " " -f 1)',
 
 		/* eslint-disable no-template-curly-in-string */
 		'echo "[🏷npm:${DETECTED_NPM_VERSION}]"',

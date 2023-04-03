@@ -41,6 +41,20 @@ module.exports = {
 			option: '--quiet',
 			type: 'boolean',
 			default: false
+		},
+		incremental: {
+			name: 'Incremental Builds',
+			description: 'Perform a partial build operating only on files that have changed to improve build times',
+			option: '--incremental',
+			type: 'boolean',
+			default: false
+		},
+		ignoreinitial: {
+			name: 'Ignore Initial',
+			description: 'Run Eleventy without an Initial Build',
+			option: '--ignore-initial',
+			type: 'boolean',
+			default: false
 		}
 	}
 };

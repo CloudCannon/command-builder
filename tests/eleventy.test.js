@@ -51,7 +51,7 @@ test('outputs with empty config', () => {
 });
 
 test('outputs with @next config', () => {
-	expect(runScriptCommands({ use_beta_plugin: true, input: 'src' })).toEqual([
+	expect(runScriptCommands({ use_beta_plugin: true, input: 'src', incremental: true, ignoreinitial: true })).toEqual([
 		'echo "$ source .cloudcannon/preinstall"',
 		'if [ -f ".cloudcannon/preinstall" ]; then source .cloudcannon/preinstall; else echo "Not found."; fi',
 		'echo "$ cd /usr/local/__site/src/"',
@@ -84,8 +84,8 @@ test('outputs with @next config', () => {
 		// eslint-disable-next-line no-template-curly-in-string
 		'echo "[🏷node:${DETECTED_NODE_VERSION}]"',
 
-		'echo \'$ npx @11ty/eleventy --input src --output _site\'',
-		'npx @11ty/eleventy --input src --output _site',
+		'echo \'$ npx @11ty/eleventy --input src --incremental --ignore-initial --output _site\'',
+		'npx @11ty/eleventy --input src --incremental --ignore-initial --output _site',
 
 		'echo "$ source .cloudcannon/postbuild"',
 		'if [ -f ".cloudcannon/postbuild" ]; then source .cloudcannon/postbuild; else echo "Not found."; fi',
