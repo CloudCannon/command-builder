@@ -7,7 +7,7 @@ module.exports = {
 				value: '/usr/local/__site/src/hugo_cache/'
 			}
 		],
-		preserved_paths: 'node_modules/,hugo_cache/'
+		preserved_paths: 'node_modules/,hugo_cache/,resources/'
 	},
 	options: {
 		environment: {
