@@ -1,7 +1,13 @@
 module.exports = {
 	structure: 'hugo [options]',
 	defaults: {
-		preserved_paths: 'node_modules/'
+		environment_variables: [
+			{
+				key: 'HUGO_CACHEDIR',
+				value: '/usr/local/__site/src/hugo_cache/'
+			}
+		],
+		preserved_paths: 'node_modules/,hugo_cache/'
 	},
 	options: {
 		environment: {
