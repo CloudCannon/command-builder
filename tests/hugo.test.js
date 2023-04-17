@@ -38,7 +38,9 @@ test('outputs with empty config', () => {
 
 		'find /usr/local/__site/compiled/ -mindepth 1 -delete',
 		'shopt -s dotglob extglob',
-		'[ -z "$(ls public)" ] || mv public/!(.cloudcannon|..|.) /usr/local/__site/compiled/',
+		'__OUTPUT_DIR_CONTENT=$(ls "public")',
+		'[ -z "$__OUTPUT_DIR_CONTENT" ] || mv "public"/!(.cloudcannon|..|.) /usr/local/__site/compiled/',
+		'unset __OUTPUT_DIR_CONTENT',
 		'shopt -u dotglob extglob',
 		'echo "[☁️Start Export]"',
 		'echo "{"',
@@ -85,7 +87,9 @@ test('outputs with source directory configured', () => {
 
 		'find /usr/local/__site/compiled/ -mindepth 1 -delete',
 		'shopt -s dotglob extglob',
-		'[ -z "$(ls src/public)" ] || mv src/public/!(.cloudcannon|..|.) /usr/local/__site/compiled/',
+		'__OUTPUT_DIR_CONTENT=$(ls "src/public")',
+		'[ -z "$__OUTPUT_DIR_CONTENT" ] || mv "src/public"/!(.cloudcannon|..|.) /usr/local/__site/compiled/',
+		'unset __OUTPUT_DIR_CONTENT',
 		'shopt -u dotglob extglob',
 		'echo "[☁️Start Export]"',
 		'echo "{"',
