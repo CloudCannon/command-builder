@@ -22,14 +22,18 @@ test('outputs with empty config', () => {
 		'echo "$ cd /usr/local/__site/src/"',
 		'cd /usr/local/__site/src/',
 
-		'DETECTED_HUGO_VERSION=$(hugo version | sed \'s/[][]//g\' | sed \'s/^hugo v//\' | cut -d \' \' -f 1)',
+		"DETECTED_HUGO_VERSION=$(hugo version | sed 's/[][]//g' | sed 's/^hugo v//' | cut -d ' ' -f 1)",
 		// eslint-disable-next-line no-template-curly-in-string
 		'echo "[🏷hugo:${DETECTED_HUGO_VERSION}]"',
 
-		'echo \'$ hugo --destination public\'',
+		"echo '$ hugo --destination public'",
 		'hugo --destination public',
-		'echo \'$ npx cloudcannon-hugo --destination public\'',
+		'__CURRENT_NVM_VERSION=$(nvm current)',
+		'nvm use default > /dev/null',
+		"echo '$ npx cloudcannon-hugo --destination public'",
 		'npx cloudcannon-hugo --destination public',
+		'nvm use "$__CURRENT_NVM_VERSION" > /dev/null',
+		'unset __CURRENT_NVM_VERSION',
 
 		'echo "$ source .cloudcannon/postbuild"',
 		'if [ -f ".cloudcannon/postbuild" ]; then source .cloudcannon/postbuild; else echo "Not found."; fi',
@@ -71,14 +75,18 @@ test('outputs with source directory configured', () => {
 		'echo "$ cd /usr/local/__site/src/"',
 		'cd /usr/local/__site/src/',
 
-		'DETECTED_HUGO_VERSION=$(hugo version | sed \'s/[][]//g\' | sed \'s/^hugo v//\' | cut -d \' \' -f 1)',
+		"DETECTED_HUGO_VERSION=$(hugo version | sed 's/[][]//g' | sed 's/^hugo v//' | cut -d ' ' -f 1)",
 		// eslint-disable-next-line no-template-curly-in-string
 		'echo "[🏷hugo:${DETECTED_HUGO_VERSION}]"',
 
-		'echo \'$ hugo --source src --destination public\'',
+		"echo '$ hugo --source src --destination public'",
 		'hugo --source src --destination public',
-		'echo \'$ npx cloudcannon-hugo --source src --destination public\'',
+		'__CURRENT_NVM_VERSION=$(nvm current)',
+		'nvm use default > /dev/null',
+		"echo '$ npx cloudcannon-hugo --source src --destination public'",
 		'npx cloudcannon-hugo --source src --destination public',
+		'nvm use "$__CURRENT_NVM_VERSION" > /dev/null',
+		'unset __CURRENT_NVM_VERSION',
 
 		'echo "$ source .cloudcannon/postbuild"',
 		'if [ -f ".cloudcannon/postbuild" ]; then source .cloudcannon/postbuild; else echo "Not found."; fi',

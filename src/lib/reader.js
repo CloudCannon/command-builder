@@ -33,9 +33,19 @@ function getBuildCommands(buildConfig, buildOutputPath) {
 
 	return [
 		...(buildConfig.build_command
-			? [buildConfig.build_command, `cd ${Compiler.getInputPath()}`]
+			? [
+				`echo '$ ${buildConfig.build_command}'`,
+				buildConfig.build_command,
+				`echo '$ cd ${Compiler.getInputPath()}'`,
+				`cd ${Compiler.getInputPath()}`
+			]
 			: []),
-		`npx @cloudcannon/reader${pluginTag} --output "${buildOutputPath}"`
+		'__CURRENT_NVM_VERSION=$(nvm current)',
+		'nvm use default > /dev/null',
+		`echo '$ npx @cloudcannon/reader${pluginTag} --output "${buildOutputPath}"'`,
+		`npx @cloudcannon/reader${pluginTag} --output "${buildOutputPath}"`,
+		'nvm use "$__CURRENT_NVM_VERSION" > /dev/null',
+		'unset __CURRENT_NVM_VERSION'
 	];
 }
 
@@ -48,10 +58,7 @@ module.exports = class Reader {
 			...getInstallCommands(buildConfig).reduce(addEchoCommand, []),
 			...Compiler.getPrebuildCommands(),
 			...getCheckCommands(),
-			...getBuildCommands(buildConfig, buildOutputPath).reduce(
-				addEchoCommand,
-				[]
-			),
+			...getBuildCommands(buildConfig, buildOutputPath),
 			...Compiler.getPostbuildCommands(),
 			...Compiler.getOutputCommands(
 				buildOutputPath,

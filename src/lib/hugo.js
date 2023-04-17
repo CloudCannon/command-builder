@@ -17,8 +17,14 @@ function getBuildCommands(buildConfig) {
 	const buildOptions = Parser.parseOptions('hugo', buildConfig);
 
 	return [
+		`echo '$ hugo ${buildOptions}'`,
 		`hugo ${buildOptions}`,
-		`npx cloudcannon-hugo${tag} ${buildOptions}`
+		'__CURRENT_NVM_VERSION=$(nvm current)',
+		'nvm use default > /dev/null',
+		`echo '$ npx cloudcannon-hugo${tag} ${buildOptions}'`,
+		`npx cloudcannon-hugo${tag} ${buildOptions}`,
+		'nvm use "$__CURRENT_NVM_VERSION" > /dev/null',
+		'unset __CURRENT_NVM_VERSION'
 	];
 }
 
@@ -40,7 +46,7 @@ module.exports = class Hugo {
 			...Compiler.getLegacyPrebuildCommands(),
 			...Compiler.getPrebuildCommands(),
 			...getCheckCommands(),
-			...getBuildCommands(buildConfig).reduce(addEchoCommand, []),
+			...getBuildCommands(buildConfig),
 			...Compiler.getPostbuildCommands(),
 			...Compiler.getOutputCommands(outputPath, buildConfig.preserveOutput),
 			...Compiler.getExportCommands()
