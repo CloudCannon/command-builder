@@ -10,6 +10,12 @@ module.exports = {
 		preserved_paths: 'node_modules/,hugo_cache/,resources/'
 	},
 	options: {
+		install_command: {
+			name: 'Install Command',
+			description: 'Command to install dependencies before build.',
+			type: 'string',
+			default: '[ -f package.json ] && npm i'
+		},
 		environment: {
 			name: 'Environment',
 			description: 'The environment used in the build.',

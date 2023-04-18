@@ -5,7 +5,7 @@ const { addEchoCommand } = require('../helpers/commands');
 
 function getCheckCommands() {
 	return [
-		'DETECTED_HUGO_VERSION=$(hugo version | sed \'s/[][]//g\' | sed \'s/^hugo v//\' | cut -d \' \' -f 1)',
+		"DETECTED_HUGO_VERSION=$(hugo version | sed 's/[][]//g' | sed 's/^hugo v//' | cut -d ' ' -f 1)",
 
 		// eslint-disable-next-line no-template-curly-in-string
 		'echo "[🏷hugo:${DETECTED_HUGO_VERSION}]"'
@@ -28,21 +28,27 @@ function getBuildCommands(buildConfig) {
 	];
 }
 
-function getInstallCommands() {
+function getInstallCommands(buildConfig) {
 	return [
 		'export NODE_PATH=`pwd`/node_modules:$NODE_PATH', // workaround for https://github.com/gohugoio/hugo/issues/9800
-		'if [ -f package.json ]; then npm i; fi'
+		...(buildConfig.install_command
+			? [buildConfig.install_command, `cd ${Compiler.getInputPath()}`]
+			: [])
 	];
 }
 
 module.exports = class Hugo {
 	static runScriptCommands(buildConfig = {}) {
 		buildConfig.destination = buildConfig.destination || 'public';
-		const outputPath = join(buildConfig.source ?? '', buildConfig.destination).replace(/^\//, '');
+		buildConfig.install_command = buildConfig.install_command ?? '[ -f package.json ] && npm i';
+		const outputPath = join(
+			buildConfig.source ?? '',
+			buildConfig.destination
+		).replace(/^\//, '');
 
 		return [
 			...Compiler.getPreinstallCommands(),
-			...getInstallCommands().reduce(addEchoCommand, []),
+			...getInstallCommands(buildConfig).reduce(addEchoCommand, []),
 			...Compiler.getLegacyPrebuildCommands(),
 			...Compiler.getPrebuildCommands(),
 			...getCheckCommands(),
