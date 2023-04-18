@@ -46,7 +46,9 @@ module.exports = class Compiler {
 		return [
 			`find ${outputPath} -mindepth 1 -delete`,
 			'shopt -s dotglob extglob',
-			`[ -z "$(ls ${buildOutputPath})" ] || ${action} ${buildOutputPath}/!(.cloudcannon|..|.) ${outputPath}`,
+			`__OUTPUT_DIR_CONTENT=$(ls "${buildOutputPath}")`,
+			`[ -z "$__OUTPUT_DIR_CONTENT" ] || ${action} "${buildOutputPath}"/!(.cloudcannon|..|.) ${outputPath}`,
+			'unset __OUTPUT_DIR_CONTENT',
 			'shopt -u dotglob extglob'
 		];
 	}

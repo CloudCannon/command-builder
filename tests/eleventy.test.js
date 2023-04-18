@@ -41,7 +41,9 @@ test('outputs with empty config', () => {
 
 		'find /usr/local/__site/compiled/ -mindepth 1 -delete',
 		'shopt -s dotglob extglob',
-		'[ -z "$(ls _site)" ] || mv _site/!(.cloudcannon|..|.) /usr/local/__site/compiled/',
+		'__OUTPUT_DIR_CONTENT=$(ls "_site")',
+		'[ -z "$__OUTPUT_DIR_CONTENT" ] || mv "_site"/!(.cloudcannon|..|.) /usr/local/__site/compiled/',
+		'unset __OUTPUT_DIR_CONTENT',
 		'shopt -u dotglob extglob',
 		'echo "[☁️Start Export]"',
 		'echo "{"',
@@ -51,7 +53,9 @@ test('outputs with empty config', () => {
 });
 
 test('outputs with @next config', () => {
-	expect(runScriptCommands({ use_beta_plugin: true, input: 'src', incremental: true, ignoreinitial: true })).toEqual([
+	expect(runScriptCommands({
+		use_beta_plugin: true, input: 'src', incremental: true, ignoreinitial: true
+	})).toEqual([
 		'echo "$ source .cloudcannon/preinstall"',
 		'if [ -f ".cloudcannon/preinstall" ]; then source .cloudcannon/preinstall; else echo "Not found."; fi',
 		'echo "$ cd /usr/local/__site/src/"',
@@ -94,7 +98,9 @@ test('outputs with @next config', () => {
 
 		'find /usr/local/__site/compiled/ -mindepth 1 -delete',
 		'shopt -s dotglob extglob',
-		'[ -z "$(ls _site)" ] || mv _site/!(.cloudcannon|..|.) /usr/local/__site/compiled/',
+		'__OUTPUT_DIR_CONTENT=$(ls "_site")',
+		'[ -z "$__OUTPUT_DIR_CONTENT" ] || mv "_site"/!(.cloudcannon|..|.) /usr/local/__site/compiled/',
+		'unset __OUTPUT_DIR_CONTENT',
 		'shopt -u dotglob extglob',
 		'echo "[☁️Start Export]"',
 		'echo "{"',
@@ -135,7 +141,9 @@ test('outputs with mange_plugin_manually', () => {
 
 		'find /usr/local/__site/compiled/ -mindepth 1 -delete',
 		'shopt -s dotglob extglob',
-		'[ -z "$(ls _site)" ] || mv _site/!(.cloudcannon|..|.) /usr/local/__site/compiled/',
+		'__OUTPUT_DIR_CONTENT=$(ls "_site")',
+		'[ -z "$__OUTPUT_DIR_CONTENT" ] || mv "_site"/!(.cloudcannon|..|.) /usr/local/__site/compiled/',
+		'unset __OUTPUT_DIR_CONTENT',
 		'shopt -u dotglob extglob',
 		'echo "[☁️Start Export]"',
 		'echo "{"',

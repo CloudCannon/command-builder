@@ -4,10 +4,10 @@ const { addEchoCommand } = require('../helpers/commands');
 
 function getCheckCommands() {
 	return [
-		'DETECTED_NPM_VERSION=$((npm -v 2> /dev/null || echo \'unknown\') | sed "s/[][]//g")',
+		"DETECTED_NPM_VERSION=$((npm -v 2> /dev/null || echo 'unknown') | sed \"s/[][]//g\")",
 		'DETECTED_NODE_VERSION=$((node -v 2> /dev/null || echo \'unknown\') | sed "s/[][]//g" | sed "s/^v//")',
 		'DETECTED_DENO_VERSION=$((deno -V 2> /dev/null || echo \'unknown\') | sed "s/[][]//g" | sed "s/^deno //")',
-		'DETECTED_YARN_VERSION=$(yarn -v 2> /dev/null || echo \'unknown\')',
+		"DETECTED_YARN_VERSION=$(yarn -v 2> /dev/null || echo 'unknown')",
 		'DETECTED_BUNDLE_VERSION=$((bundle -v 2> /dev/null || echo \'unknown\') | sed "s/[][]//g" | sed "s/^Bundler version //g")',
 		'DETECTED_RUBY_VERSION=$((ruby -v 2> /dev/null || echo \'unknown\') | sed "s/[][]//g" | sed "s/^ruby //g" | cut -d " " -f 1)',
 
@@ -23,15 +23,29 @@ function getCheckCommands() {
 }
 
 function getInstallCommands(buildConfig) {
-	return buildConfig.install_command ? [buildConfig.install_command] : [];
+	return buildConfig.install_command
+		? [buildConfig.install_command, `cd ${Compiler.getInputPath()}`]
+		: [];
 }
 
 function getBuildCommands(buildConfig, buildOutputPath) {
 	const pluginTag = buildConfig.use_beta_plugin ? '@next' : '@latest';
 
 	return [
-		...(buildConfig.build_command ? [buildConfig.build_command] : []),
-		`npx @cloudcannon/reader${pluginTag} --output "${buildOutputPath}"`
+		...(buildConfig.build_command
+			? [
+				`echo '$ ${buildConfig.build_command}'`,
+				buildConfig.build_command,
+				`echo '$ cd ${Compiler.getInputPath()}'`,
+				`cd ${Compiler.getInputPath()}`
+			]
+			: []),
+		'__CURRENT_NVM_VERSION=$(nvm current)',
+		'nvm use default > /dev/null',
+		`echo '$ npx @cloudcannon/reader${pluginTag} --output "${buildOutputPath}"'`,
+		`npx @cloudcannon/reader${pluginTag} --output "${buildOutputPath}"`,
+		'nvm use "$__CURRENT_NVM_VERSION" > /dev/null',
+		'unset __CURRENT_NVM_VERSION'
 	];
 }
 
@@ -44,9 +58,12 @@ module.exports = class Reader {
 			...getInstallCommands(buildConfig).reduce(addEchoCommand, []),
 			...Compiler.getPrebuildCommands(),
 			...getCheckCommands(),
-			...getBuildCommands(buildConfig, buildOutputPath).reduce(addEchoCommand, []),
+			...getBuildCommands(buildConfig, buildOutputPath),
 			...Compiler.getPostbuildCommands(),
-			...Compiler.getOutputCommands(buildOutputPath, buildConfig.preserveOutput),
+			...Compiler.getOutputCommands(
+				buildOutputPath,
+				buildConfig.preserveOutput
+			),
 			...Compiler.getExportCommands()
 		];
 	}
