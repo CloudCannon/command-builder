@@ -4,10 +4,10 @@ module.exports = {
 		environment_variables: [
 			{
 				key: 'HUGO_CACHEDIR',
-				value: '/usr/local/__site/src/hugo_cache/'
+				value: '/usr/local/__site/src/.hugo_cache/'
 			}
 		],
-		preserved_paths: 'node_modules/,hugo_cache/,resources/'
+		preserved_paths: 'node_modules/,.hugo_cache/,resources/'
 	},
 	options: {
 		install_command: {
