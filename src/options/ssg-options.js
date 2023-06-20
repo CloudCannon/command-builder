@@ -6,6 +6,7 @@ const jekyll = require('./jekyll-options');
 const lume = require('./lume-options');
 const mkdocs = require('./mkdocs-options');
 const nextjs = require('./nextjs-options');
+const docusaurus = require('./docusaurus-options');
 const nuxtjs = require('./nuxtjs-options');
 const reader = require('./reader-options');
 const readerNpm = require('./reader-npm-options');
@@ -15,6 +16,7 @@ const sveltekit = require('./sveltekit-options');
 module.exports = {
 	astro,
 	bridgetown,
+	docusaurus,
 	eleventy,
 	gatsby: readerNpm,
 	hexo: readerNpm,
