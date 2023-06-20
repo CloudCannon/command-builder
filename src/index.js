@@ -13,6 +13,7 @@ const BuildOptions = require('./options/ssg-options');
 module.exports = {
 	Astro: ReaderNpm,
 	Bridgetown: Reader,
+	Docusaurus: ReaderNpm,
 	Eleventy,
 	Gatsby: ReaderNpm,
 	Hexo: ReaderNpm,
