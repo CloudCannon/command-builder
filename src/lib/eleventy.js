@@ -1,4 +1,3 @@
-const { join, dirname } = require('path');
 const Compiler = require('./compiler');
 const { parseOptions } = require('../helpers/parser');
 const { addEchoCommand } = require('../helpers/commands');
@@ -22,8 +21,6 @@ function getInstallCommands(buildConfig) {
 		];
 	}
 
-	const configPath = buildConfig.config || '.eleventy.js';
-	const configMovedPath = join(dirname(configPath), 'default-eleventy.config.js');
 	const pluginTag = buildConfig.use_beta_plugin ? 'next' : 'latest';
 
 	// npm pkg set requires npm version >= 7
@@ -37,11 +34,28 @@ function getInstallCommands(buildConfig) {
 		// Install dependencies
 		'npm install',
 
+		...(
+			buildConfig.config
+				? [
+					`if [ -f "${buildConfig.config}" ]; then export ELEVENTY_CONFIG="${buildConfig.config}"; fi`
+				]
+				: [
+					// Find default config path (in reverse order to match priority)
+					'if [ -f eleventy.config.cjs ]; then export ELEVENTY_CONFIG=eleventy.config.cjs; fi',
+					'if [ -f eleventy.config.js ]; then export ELEVENTY_CONFIG=eleventy.config.js; fi',
+					'if [ -f .eleventy.js ]; then export ELEVENTY_CONFIG=.eleventy.js; fi'
+				]
+		),
+
+		'export ELEVENTY_CONFIG_DIR=`dirname $ELEVENTY_CONFIG`',
+		'echo $ELEVENTY_CONFIG',
+		'echo $ELEVENTY_CONFIG_DIR',
+
 		// Move the site config file to injected config require location
-		`if [ -f ${configPath} ]; then mv ${configPath} ${configMovedPath}; fi`,
+		'if [ -f $ELEVENTY_CONFIG ]; then mv $ELEVENTY_CONFIG "$ELEVENTY_CONFIG_DIR/default-eleventy.config.js"; fi',
 
 		// Move injected config to the original site config location
-		`cp node_modules/eleventy-plugin-cloudcannon/src/inject-cloudcannon.config.js ${configPath}`,
+		'cp node_modules/eleventy-plugin-cloudcannon/src/inject-cloudcannon.config.js $ELEVENTY_CONFIG',
 
 		// Set environment variable for plugin to read
 		...(buildConfig.input ? [`export CC_ELEVENTY_INPUT="${buildConfig.input || ''}"`] : [])
