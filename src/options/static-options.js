@@ -5,7 +5,7 @@ module.exports = {
 	options: {
 		source: {
 			name: 'Source',
-			description: 'The path CloudCannon reads your files.',
+			description: 'The path to the folder that is copied to the output',
 			type: 'string',
 			validator: /^[^<>:"|?*/\\]+$/ig
 		}

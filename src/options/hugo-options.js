@@ -108,6 +108,13 @@ module.exports = {
 			type: 'string',
 			validator: /.*/ig
 		},
+		logLevel: {
+			name: 'Log level',
+			description: '[Requires Hugo version >=0.114.0] Log level (debug|info|warn|error)',
+			option: '--logLevel',
+			suggestion: 'one of: debug, info, warn, error',
+			type: 'string'
+		},
 		ignoreVendorPaths: {
 			name: 'Ignore Vendor Paths',
 			description: 'Ignores any _vendor for module paths matching the given pattern.',
@@ -155,7 +162,7 @@ module.exports = {
 		},
 		debug: {
 			name: 'Debug',
-			description: 'Output debug output.',
+			description: '[Deprecated in Hugo version >=0.114.0] Output debug output.',
 			option: '--debug',
 			type: 'boolean',
 			default: false
@@ -197,7 +204,7 @@ module.exports = {
 		},
 		log: {
 			name: 'Log',
-			description: 'Enable logging.',
+			description: '[Removed in Hugo version >=0.114.0] Enable logging.',
 			option: '--log',
 			type: 'boolean',
 			default: false
@@ -260,7 +267,7 @@ module.exports = {
 		},
 		verbose: {
 			name: 'Verbose',
-			description: 'Verbose output.',
+			description: '[Deprecated in Hugo version >=0.114.0] Verbose output.',
 			option: '--verbose',
 			alias: '-v',
 			type: 'boolean',
@@ -268,7 +275,7 @@ module.exports = {
 		},
 		verboseLog: {
 			name: 'Verbose Log',
-			description: 'Verbose logging.',
+			description: '[Removed in Hugo version >=0.114.0] Verbose logging.',
 			option: '--verboseLog',
 			type: 'boolean',
 			default: false
