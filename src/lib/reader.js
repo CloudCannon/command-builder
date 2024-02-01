@@ -29,7 +29,7 @@ function getInstallCommands(buildConfig) {
 }
 
 function getBuildCommands(buildConfig, buildOutputPath) {
-	const pluginTag = buildConfig.use_beta_plugin ? '@next' : '@latest';
+	const pluginTag = buildConfig.use_beta_plugin ? '@next' : '';
 
 	return [
 		...(buildConfig.build_command

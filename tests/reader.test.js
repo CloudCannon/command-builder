@@ -26,8 +26,8 @@ test('outputs with empty config', () => {
 		/* eslint-enable no-template-curly-in-string */
 		'__CURRENT_NVM_VERSION=$(nvm current)',
 		'nvm use default > /dev/null',
-		"echo '$ npx @cloudcannon/reader@latest --output \"public\"'",
-		'npx @cloudcannon/reader@latest --output "public"',
+		"echo '$ npx @cloudcannon/reader --output \"public\"'",
+		'npx @cloudcannon/reader --output "public"',
 		'nvm use "$__CURRENT_NVM_VERSION" > /dev/null',
 		'unset __CURRENT_NVM_VERSION',
 		'echo "$ source .cloudcannon/postbuild"',
