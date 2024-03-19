@@ -181,13 +181,6 @@ module.exports = {
 			type: 'boolean',
 			default: false
 		},
-		i18nWarnings: {
-			name: 'I18n Warnings',
-			description: 'Print missing translations.',
-			option: '--i18n-warnings',
-			type: 'boolean',
-			default: false
-		},
 		ignoreCache: {
 			name: 'Ignore Cache',
 			description: 'Ignores the cache directory.',
@@ -230,17 +223,31 @@ module.exports = {
 			type: 'boolean',
 			default: true
 		},
-		pathWarnings: {
-			name: 'Path Warnings',
-			description: 'Print warnings on duplicate target paths, etc.',
-			option: '--path-warnings',
+		printI18nWarnings: {
+			name: 'Print I18n Warnings',
+			description: 'Print missing translations.',
+			option: '--printI18nWarnings',
 			type: 'boolean',
 			default: false
 		},
-		mem: {
+		printMemoryUsage: {
 			name: 'Print Memory',
 			description: 'Print memory usage to screen at intervals.',
-			option: '--print-mem',
+			option: '--printMemoryUsage',
+			type: 'boolean',
+			default: false
+		},
+		printPathWarnings: {
+			name: 'Path Warnings',
+			description: 'Print warnings on duplicate target paths, etc.',
+			option: '--printPathWarnings',
+			type: 'boolean',
+			default: false
+		},
+		printUnusedTemplates: {
+			name: 'Print Unused Templates',
+			description: 'Print warnings on unused templates.',
+			option: '--printUnusedTemplates',
 			type: 'boolean',
 			default: false
 		},
@@ -277,6 +284,27 @@ module.exports = {
 			name: 'Verbose Log',
 			description: '[Removed in Hugo version >=0.114.0] Verbose logging.',
 			option: '--verboseLog',
+			type: 'boolean',
+			default: false
+		},
+		i18nWarnings: {
+			name: 'I18n Warnings (Deprecated)',
+			description: '[Deprecated in Hugo version >=0.93.0] Print missing translations.',
+			option: '--i18n-warnings',
+			type: 'boolean',
+			default: false
+		},
+		pathWarnings: {
+			name: 'Path Warnings (Deprecated)',
+			description: '[Deprecated in Hugo version >=0.93.0] Print warnings on duplicate target paths, etc.',
+			option: '--path-warnings',
+			type: 'boolean',
+			default: false
+		},
+		mem: {
+			name: 'Print Memory (Deprecated)',
+			description: '[Deprecated in Hugo version >=0.93.0] Print memory usage to screen at intervals.',
+			option: '--print-mem',
 			type: 'boolean',
 			default: false
 		}
