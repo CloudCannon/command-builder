@@ -14,6 +14,15 @@ function getCheckCommands() {
 	];
 }
 
+function getVersioningCommands() {
+	return [
+		'export CC_ELEVENTY_VERSION=`npm list @11ty/eleventy | grep @11ty/eleventy | awk -F "@" \'{print $NF}\'`',
+
+		// eslint-disable-next-line no-template-curly-in-string
+		'echo "[🏷@11ty/eleventy:${CC_ELEVENTY_VERSION}]"'
+	];
+}
+
 function getInstallCommands(buildConfig) {
 	if (buildConfig.manage_plugin_manually) {
 		return [
@@ -27,7 +36,7 @@ function getInstallCommands(buildConfig) {
 	const installDependency = `npm pkg set dependencies.eleventy-plugin-cloudcannon=${pluginTag}`;
 	const installDependencyFallback = `npm install eleventy-plugin-cloudcannon@${pluginTag}`;
 
-	const commands = [
+	return [
 		// Add (fallback to install) the integration plugin as dependency
 		`${installDependency} || ${installDependencyFallback}`,
 
@@ -37,36 +46,50 @@ function getInstallCommands(buildConfig) {
 		...(
 			buildConfig.config
 				? [
-					`if [ -f "${buildConfig.config}" ]; then export ELEVENTY_CONFIG="${buildConfig.config}"; fi`
+					`if [ -f "${buildConfig.config}" ]; then CONFIG="${buildConfig.config}"; fi`
 				]
 				: [
 					// Find default config path (in reverse order to match priority)
-					'if [ -f eleventy.config.cjs ]; then export ELEVENTY_CONFIG=eleventy.config.cjs; fi',
-					'if [ -f eleventy.config.js ]; then export ELEVENTY_CONFIG=eleventy.config.js; fi',
-					'if [ -f .eleventy.js ]; then export ELEVENTY_CONFIG=.eleventy.js; fi'
+					'if [ -f eleventy.config.cjs ]; then CONFIG=eleventy.config.cjs; fi',
+					'if [ -f eleventy.config.mjs ]; then CONFIG=eleventy.config.mjs; fi',
+					'if [ -f eleventy.config.js ]; then CONFIG=eleventy.config.js; fi',
+					'if [ -f .eleventy.js ]; then CONFIG=.eleventy.js; fi'
 				]
 		),
 
-		'export ELEVENTY_CONFIG_DIR=`dirname $ELEVENTY_CONFIG`',
-		'echo $ELEVENTY_CONFIG',
-		'echo $ELEVENTY_CONFIG_DIR',
+		'echo $CONFIG',
+
+		'CONFIG_DIR=`dirname $CONFIG`',
+		'echo $CONFIG_DIR',
+
+		'CONFIG_BASE=`basename $CONFIG`',
+		'echo $CONFIG_BASE',
+
+		'CONFIG_INJECTED="$CONFIG_DIR/inject-cloudcannon.config.cjs"',
+		'echo $CONFIG_INJECTED',
+
+		'export CC_ELEVENTY_CONFIG="$CONFIG_DIR/default-$CONFIG_BASE"',
+		'echo $CC_ELEVENTY_CONFIG',
 
 		// Move the site config file to injected config require location
-		'if [ -f $ELEVENTY_CONFIG ]; then mv $ELEVENTY_CONFIG "$ELEVENTY_CONFIG_DIR/default-eleventy.config.js"; fi',
+		'if [ -f $CONFIG ]; then mv $CONFIG $CC_ELEVENTY_CONFIG; fi',
 
 		// Move injected config to the original site config location
-		'cp node_modules/eleventy-plugin-cloudcannon/src/inject-cloudcannon.config.js $ELEVENTY_CONFIG',
+		'cp node_modules/eleventy-plugin-cloudcannon/src/inject-cloudcannon.config.cjs $CONFIG_INJECTED',
 
 		// Set environment variable for plugin to read
 		...(buildConfig.input ? [`export CC_ELEVENTY_INPUT="${buildConfig.input || ''}"`] : [])
 	];
-
-	return commands;
 }
 
 function getBuildCommands(buildConfig) {
+	const alteredConfig = {
+		...buildConfig,
+		config: undefined
+	};
+
 	return [
-		`npx @11ty/eleventy ${parseOptions('eleventy', buildConfig)}`
+		`npx @11ty/eleventy --config=$CONFIG_INJECTED ${parseOptions('eleventy', alteredConfig)}`
 	];
 }
 
@@ -77,6 +100,7 @@ module.exports = class Eleventy {
 
 		return [
 			...Compiler.getPreinstallCommands(),
+			...getVersioningCommands(),
 			...getInstallCommands(buildConfig).reduce(addEchoCommand, []),
 			...Compiler.getPrebuildCommands(),
 			...getCheckCommands(),
