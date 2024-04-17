@@ -1,3 +1,8 @@
+function addEchoCommand(memo, command) {
+	memo.push(`echo '$ ${command}'`, command);
+	return memo;
+}
+
 module.exports = {
-	addEchoCommand: (memo, command) => [...memo, `echo '$ ${command}'`, command]
+	addEchoCommand
 };

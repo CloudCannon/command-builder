@@ -28,7 +28,7 @@ function getInstallCommands(buildConfig) {
 	if (buildConfig.manage_plugin_manually) {
 		return [
 			'npm install'
-		];
+		].reduce(addEchoCommand, []);
 	}
 
 	const pluginTag = buildConfig.use_beta_plugin ? 'next' : 'latest';
