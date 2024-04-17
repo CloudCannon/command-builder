@@ -17,6 +17,7 @@ function getCheckCommands() {
 function getVersioningCommands() {
 	return [
 		'export CC_ELEVENTY_VERSION=`npm list @11ty/eleventy | grep @11ty/eleventy | awk -F "@" \'{print $NF}\'`',
+		'if [[ -z "$CC_ELEVENTY_VERSION" ]]; then export CC_ELEVENTY_VERSION=unknown; fi',
 
 		// eslint-disable-next-line no-template-curly-in-string
 		'echo "[🏷@11ty/eleventy:${CC_ELEVENTY_VERSION}]"'
@@ -36,13 +37,15 @@ function getInstallCommands(buildConfig) {
 	const installDependency = `npm pkg set dependencies.eleventy-plugin-cloudcannon=${pluginTag}`;
 	const installDependencyFallback = `npm install eleventy-plugin-cloudcannon@${pluginTag}`;
 
-	return [
+	const installCommands = [
 		// Add (fallback to install) the integration plugin as dependency
 		`${installDependency} || ${installDependencyFallback}`,
 
 		// Install dependencies
-		'npm install',
+		'npm install'
+	];
 
+	const pluginCommands = [
 		...(
 			buildConfig.config
 				? [
@@ -80,6 +83,12 @@ function getInstallCommands(buildConfig) {
 		// Set environment variable for plugin to read
 		...(buildConfig.input ? [`export CC_ELEVENTY_INPUT="${buildConfig.input || ''}"`] : [])
 	];
+
+	return [
+		...installCommands.reduce(addEchoCommand, []),
+		...getVersioningCommands(),
+		...pluginCommands.reduce(addEchoCommand, [])
+	];
 }
 
 function getBuildCommands(buildConfig) {
@@ -100,8 +109,7 @@ module.exports = class Eleventy {
 
 		return [
 			...Compiler.getPreinstallCommands(),
-			...getVersioningCommands(),
-			...getInstallCommands(buildConfig).reduce(addEchoCommand, []),
+			...getInstallCommands(buildConfig),
 			...Compiler.getPrebuildCommands(),
 			...getCheckCommands(),
 			...getBuildCommands(buildConfig).reduce(addEchoCommand, []),
