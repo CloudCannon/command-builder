@@ -65,13 +65,16 @@ function getInstallCommands(buildConfig) {
 		'CONFIG_DIR=`dirname $CONFIG`',
 		'echo $CONFIG_DIR',
 
+		'PWD=`pwd`',
+		'echo $PWD',
+
 		'CONFIG_BASE=`basename $CONFIG`',
 		'echo $CONFIG_BASE',
 
-		'CONFIG_INJECTED="$CONFIG_DIR/inject-cloudcannon.config.cjs"',
+		'CONFIG_INJECTED="$PWD/$CONFIG_DIR/inject-cloudcannon.config.cjs"',
 		'echo $CONFIG_INJECTED',
 
-		'export CC_ELEVENTY_CONFIG="$CONFIG_DIR/default-$CONFIG_BASE"',
+		'export CC_ELEVENTY_CONFIG="$PWD/$CONFIG_DIR/default-$CONFIG_BASE"',
 		'echo $CC_ELEVENTY_CONFIG',
 
 		// Move the site config file to injected config require location
