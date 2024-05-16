@@ -36,19 +36,6 @@ module.exports = class Jekyll {
 			`echo "$ export JEKYLL_ENV=\\"${environment}\\""`,
 			`export JEKYLL_ENV="${environment}"`,
 
-			'if [ -f ".ruby-version" ]; then',
-			'  echo "$ ruby -v (Using .ruby-version)"',
-			'  ruby -v || (echo "\\nPlease use one of the following versions:\\n" && rbenv versions 2> /dev/null && false)',
-			'fi',
-
-			'DETECTED_BUNDLE_VERSION=$(bundle -v | sed \'s/[][]//g\' | sed \'s/^Bundler version //g\')',
-			'DETECTED_RUBY_VERSION=$(ruby -v | sed \'s/[][]//g\' | sed \'s/^ruby //g\' | cut -d \' \' -f 1)',
-
-			// eslint-disable-next-line no-template-curly-in-string
-			'echo "[🏷bundler:${DETECTED_BUNDLE_VERSION}]"',
-			// eslint-disable-next-line no-template-curly-in-string
-			'echo "[🏷ruby:${DETECTED_RUBY_VERSION}]"',
-
 			`if [ -d "${options.bundleFolderPath}" ]; then`,
 			`  echo "$ rm -rf ${options.bundleFolderPath}"`,
 			`  rm -rf ${options.bundleFolderPath}`,
@@ -63,7 +50,7 @@ module.exports = class Jekyll {
 			'  USE_BUNDLE=true',
 			'fi',
 
-			...Compiler.getPreinstallCommands(),
+			...Compiler.getPreinstallCommands(buildConfig),
 
 			'if [ "$USE_BUNDLE" = true ]; then',
 			'  echo "$ bundle version"',
@@ -84,6 +71,7 @@ module.exports = class Jekyll {
 			'else',
 			...Compiler.getLegacyPrebuildCommands(),
 			...Compiler.getPrebuildCommands(),
+			...Compiler.getCheckCommands(),
 			`  echo "$ jekyll build ${buildOptions}";`,
 			`  jekyll build ${buildOptions}`,
 			'fi',

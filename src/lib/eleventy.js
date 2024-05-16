@@ -2,18 +2,6 @@ const Compiler = require('./compiler');
 const { parseOptions } = require('../helpers/parser');
 const { addEchoCommand } = require('../helpers/commands');
 
-function getCheckCommands() {
-	return [
-		'DETECTED_NPM_VERSION=$(npm -v | sed \'s/[][]//g\')',
-		'DETECTED_NODE_VERSION=$(node -v | sed \'s/[][]//g\' | sed \'s/^v//\')',
-
-		// eslint-disable-next-line no-template-curly-in-string
-		'echo "[🏷npm:${DETECTED_NPM_VERSION}]"',
-		// eslint-disable-next-line no-template-curly-in-string
-		'echo "[🏷node:${DETECTED_NODE_VERSION}]"'
-	];
-}
-
 function getVersioningCommands() {
 	return [
 		'export CC_ELEVENTY_VERSION=`npm list @11ty/eleventy | grep @11ty/eleventy | awk -F "@" \'{print $NF}\'`',
@@ -111,10 +99,10 @@ module.exports = class Eleventy {
 		const outputPath = buildConfig.output.replace(/^\//, '');
 
 		return [
-			...Compiler.getPreinstallCommands(),
+			...Compiler.getPreinstallCommands(buildConfig),
 			...getInstallCommands(buildConfig),
 			...Compiler.getPrebuildCommands(),
-			...getCheckCommands(),
+			...Compiler.getCheckCommands(),
 			...getBuildCommands(buildConfig).reduce(addEchoCommand, []),
 			...Compiler.getPostbuildCommands(),
 			...Compiler.getOutputCommands(outputPath, buildConfig.preserveOutput),

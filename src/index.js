@@ -9,6 +9,7 @@ const Static = require('./lib/static');
 
 const Parser = require('./helpers/parser');
 const BuildOptions = require('./options/ssg-options');
+const VersionOptions = require('./options/version-options');
 
 module.exports = {
 	Astro: ReaderNpm,
@@ -30,5 +31,6 @@ module.exports = {
 	SvelteKit: ReaderNpm,
 
 	Parser,
-	BuildOptions
+	BuildOptions,
+	VersionOptions
 };

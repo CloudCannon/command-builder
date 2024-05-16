@@ -1,3 +1,5 @@
+const versionOptions = require('../options/version-options');
+
 module.exports = class Compiler {
 	static hookCommands(path) {
 		return [
@@ -8,8 +10,53 @@ module.exports = class Compiler {
 		];
 	}
 
-	static getPreinstallCommands() {
-		return Compiler.hookCommands('.cloudcannon/preinstall');
+	static getVersionCommands(buildConfig) {
+		return Object.entries(versionOptions).flatMap(([name, options]) => {
+			if (buildConfig[name] && buildConfig[name] !== options.default) {
+				const command = options.getVersionCommand(buildConfig[name]);
+				if (!command) {
+					return [];
+				}
+
+				return [
+					`echo "$ ${command}"`,
+					command
+				];
+			}
+
+			return [];
+		});
+	}
+
+	static getCheckCommands() {
+		const result = Object.entries(versionOptions).flatMap(([name, options]) => {
+			const shortName = name.slice(0, -7);
+			return [
+				`DETECTED_${shortName}_VERSION=${options.checkCommand}`,
+				`echo "[🏷${shortName}:\${DETECTED_${shortName}_VERSION}]"`
+			];
+		});
+
+		result.push(
+			"DETECTED_NPM_VERSION=$((npm -v 2> /dev/null || echo 'unknown') | sed \"s/[][]//g\")",
+			"DETECTED_YARN_VERSION=$(yarn -v 2> /dev/null || echo 'unknown')",
+			'DETECTED_BUNDLE_VERSION=$((bundle -v 2> /dev/null || echo \'unknown\') | sed "s/[][]//g" | sed "s/^Bundler version //g")',
+
+			/* eslint-disable no-template-curly-in-string */
+			'echo "[🏷npm:${DETECTED_NPM_VERSION}]"',
+			'echo "[🏷yarn:${DETECTED_YARN_VERSION}]"',
+			'echo "[🏷bundler:${DETECTED_BUNDLE_VERSION}]"'
+			/* eslint-enable no-template-curly-in-string */
+		);
+
+		return result;
+	}
+
+	static getPreinstallCommands(buildConfig = {}) {
+		return [
+			...Compiler.getVersionCommands(buildConfig),
+			...Compiler.hookCommands('.cloudcannon/preinstall')
+		];
 	}
 
 	static getPrebuildCommands() {

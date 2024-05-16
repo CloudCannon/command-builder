@@ -3,17 +3,15 @@ const Compiler = require('./compiler');
 const Parser = require('../helpers/parser');
 const { addEchoCommand } = require('../helpers/commands');
 
-function getCheckCommands() {
-	return [
-		"DETECTED_HUGO_VERSION=$(hugo version | sed 's/[][]//g' | sed 's/^hugo v//' | cut -d ' ' -f 1)",
-
-		// eslint-disable-next-line no-template-curly-in-string
-		'echo "[🏷hugo:${DETECTED_HUGO_VERSION}]"'
-	];
-}
-
 function getBuildCommands(buildConfig) {
-	const tag = buildConfig.use_beta_plugin ? '@next' : '';
+	let pluginTag;
+	if (buildConfig.manage_plugin_manually) {
+		pluginTag = '';
+	} else if (buildConfig.use_beta_plugin) {
+		pluginTag = '@next';
+	} else {
+		pluginTag = '@latest';
+	}
 	const buildOptions = Parser.parseOptions('hugo', buildConfig);
 
 	return [
@@ -21,8 +19,8 @@ function getBuildCommands(buildConfig) {
 		`hugo ${buildOptions}`,
 		'__CURRENT_NVM_VERSION=$(nvm current)',
 		'nvm use default > /dev/null',
-		`echo '$ npx cloudcannon-hugo${tag} ${buildOptions}'`,
-		`npx cloudcannon-hugo${tag} ${buildOptions}`,
+		`echo '$ npx cloudcannon-hugo${pluginTag} ${buildOptions}'`,
+		`npx cloudcannon-hugo${pluginTag} ${buildOptions}`,
 		'nvm use "$__CURRENT_NVM_VERSION" > /dev/null',
 		'unset __CURRENT_NVM_VERSION'
 	];
@@ -47,11 +45,11 @@ module.exports = class Hugo {
 		).replace(/^\//, '');
 
 		return [
-			...Compiler.getPreinstallCommands(),
+			...Compiler.getPreinstallCommands(buildConfig),
 			...getInstallCommands(buildConfig).reduce(addEchoCommand, []),
 			...Compiler.getLegacyPrebuildCommands(),
 			...Compiler.getPrebuildCommands(),
-			...getCheckCommands(),
+			...Compiler.getCheckCommands(),
 			...getBuildCommands(buildConfig),
 			...Compiler.getPostbuildCommands(),
 			...Compiler.getOutputCommands(outputPath, buildConfig.preserveOutput),
