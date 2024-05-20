@@ -1,17 +1,12 @@
-const { join } = require('path');
-const Compiler = require('./compiler');
+const Reader = require('./reader');
 
 module.exports = class Static {
-	static runScriptCommands(buildConfig) {
-		const outputPath = join(Compiler.getInputPath(), buildConfig.source || '');
-
-		return [
-			...Compiler.getPreinstallCommands(),
-			...Compiler.getLegacyPrebuildCommands(),
-			...Compiler.getPrebuildCommands(),
-			...Compiler.getOutputCommands(outputPath, buildConfig.preserveOutput),
-			...Compiler.getPostbuildCommands(),
-			...Compiler.getExportCommands()
-		];
+	static runScriptCommands(buildConfig = {}) {
+		return Reader.runScriptCommands({
+			...buildConfig,
+			output_path: buildConfig.source || '',
+			install_command: '',
+			build_command: ''
+		});
 	}
 };
