@@ -13,12 +13,14 @@ module.exports = class Compiler {
 	static getVersionCommands(buildConfig) {
 		return Object.entries(versionOptions).flatMap(([name, options]) => {
 			if (buildConfig[name] && buildConfig[name] !== options.default) {
-				const command = options.getVersionCommand(buildConfig[name]);
+				const { version, message } = options.migrateVersion(buildConfig[name]);
+				const command = options.getVersionCommand(version);
 				if (!command) {
 					return [];
 				}
 
 				return [
+					...message,
 					`echo "$ ${command}"`,
 					command
 				];
